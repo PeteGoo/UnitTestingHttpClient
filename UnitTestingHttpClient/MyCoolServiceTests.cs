@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +18,7 @@ namespace UnitTestingHttpClient
 
             Assert.IsNotNull(content);
         }
-
+        
         [TestMethod]
         public async Task MockGoToGoogle()
         {
@@ -37,6 +36,23 @@ namespace UnitTestingHttpClient
 
             var actual = await new MyCoolService(handler.Object).GetGoogleContent();
 
+            Assert.IsNotNull(actual);
+            Assert.AreEqual(expected, actual);
+        }
+    
+
+        [TestMethod]
+        public async Task StubGoToGoogle()
+        {
+            const string expected = "Yo! Just call me Test Google!!!";
+
+            var stubHandler = new StubMessageHandler(message => new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(expected)
+            });
+
+            var actual = await new MyCoolService(stubHandler).GetGoogleContent();
+            
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
         }

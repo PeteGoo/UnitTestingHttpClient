@@ -23,6 +23,8 @@ namespace UnitTestingHttpClient
             {
                 var response = await httpClient.GetAsync("http://www.google.com/");
 
+                response.EnsureSuccessStatusCode();
+
                 return await response.Content.ReadAsStringAsync();
             }
         }
